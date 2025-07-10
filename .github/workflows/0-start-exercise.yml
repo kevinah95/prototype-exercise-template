@@ -21,7 +21,7 @@ jobs:
     name: Start Exercise
     uses: skills/exercise-toolkit/.github/workflows/start-exercise.yml@v0.7.0
     with:
-      exercise-title: "KMP + Koin: Inyección de dependencias multiplataforma"
+      exercise-title: "Inyección de dependencias multiplataforma"
       intro-message: "¡Bienvenido! En este ejercicio aprenderás a usar Koin en un proyecto Kotlin Multiplataforma."
 
   post_next_step_content:
