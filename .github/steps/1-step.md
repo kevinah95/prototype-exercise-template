@@ -1,27 +1,27 @@
-## Step 1: (replace-me: STEP-NAME)
+## Step 1: Configura tu entorno y explora el proyecto
 
-(replace-me: OPTIONAL Brief story or scenario to introduce the step)
+¡Bienvenido! En este tutorial aprenderás a integrar Koin para la inyección de dependencias y a gestionar usuarios en un proyecto Kotlin Multiplatform (KMP) usando como base el proyecto KMPKoin.
 
-### 📖 Theory: (replace-me: Theory title)
+### 📖 Theory: ¿Qué es Kotlin Multiplatform y por qué usar Koin?
 
-<!-- GitHub-styled notifications can be used outside of ordered lists. Available options are: NOTE, IMPORTANT, WARNING, TIP, CAUTION -->
 <!--
 > [!NOTE]
-> (Important note or additional information relevant to this section)
- -->
+> Kotlin Multiplatform te permite compartir lógica de negocio entre Android, iOS y otras plataformas, manteniendo UIs nativas.
+-->
 
-(replace-me: Optional theory or background information relevant to this step)
+Koin es un framework ligero de inyección de dependencias para Kotlin. Facilita la gestión de dependencias y la escalabilidad de tu código, especialmente en proyectos multiplataforma.
 
-### ⌨️ Activity: (replace-me: Activity title)
+### ⌨️ Activity: Prepara tu entorno y explora la estructura
 
-1. (replace-me: First instruction)
-1. (replace-me: Second instruction)
-1. (replace-me: Additional instructions as needed)
+1. Clona el repositorio base de KMPKoin o descarga el código inicial.
+2. Abre el proyecto en tu IDE favorito (IntelliJ IDEA o Android Studio recomendado).
+3. Explora la estructura del proyecto, identificando los módulos principales: `shared`, `composeApp`, `iosApp`.
+4. Revisa los archivos `build.gradle.kts` y la carpeta `shared/src/commonMain/kotlin` para familiarizarte con la organización del código.
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>
 
-- (replace-me: Troubleshooting tip or hint)
-- (replace-me: Additional troubleshooting tips as needed)
+- Si tienes problemas para abrir el proyecto, asegúrate de tener instalada la última versión de IntelliJ IDEA o Android Studio y el plugin de Kotlin Multiplatform.
+- Si el proyecto no compila, ejecuta `./gradlew clean build` desde la terminal para forzar una reconstrucción.
 
 </details>
