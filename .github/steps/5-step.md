@@ -1,53 +1,49 @@
-## Step 5: Inicializa Koin en cada plataforma
+## Step 5: Usa las dependencias inyectadas en la UI
 
-Ya tienes tus módulos de Koin listos. Ahora debes inicializar Koin en el punto de entrada de cada plataforma para que la inyección de dependencias funcione correctamente.
+¡Ya tienes Koin funcionando en ambas plataformas! Ahora es momento de consumir las dependencias inyectadas (por ejemplo, el UserRepository) desde la UI usando Koin y Compose Multiplatform.
 
-### 📖 Theory: ¿Por qué inicializar Koin en cada plataforma?
+### 📖 Theory: Inyección de dependencias en la UI
 
 <!--
 > [!TIP]
-> Inicializar Koin en el punto de entrada de cada plataforma asegura que todas las dependencias estén disponibles desde el inicio de la aplicación.
+> Koin permite inyectar dependencias directamente en tus composables o viewmodels, facilitando la reutilización y el testeo de componentes.
 -->
 
-En proyectos multiplataforma, cada plataforma (Android, iOS) tiene su propio ciclo de vida y punto de entrada. Por eso, la inicialización de Koin debe hacerse en cada uno de ellos.
+En Compose Multiplatform, puedes usar funciones como `get()` o `inject()` de Koin para obtener instancias de tus dependencias en los composables o viewmodels.
 
-### ⌨️ Activity: Inicializa Koin en Android e iOS
+### ⌨️ Activity: Inyecta y usa UserRepository en la UI
 
-1. **Android:**
-   - Abre `composeApp/src/androidMain/kotlin/io/github/kevinah95/MainApplication.kt`.
-   - Llama a `initKoin()` en el método `onCreate` de tu clase `Application`:
-     ```kotlin
-     class MainApplication : Application() {
-         override fun onCreate() {
-             super.onCreate()
-             initKoin()
-         }
-     }
-     ```
-   - No olvides registrar tu clase `MainApplication` en el `AndroidManifest.xml`:
-     ```xml
-     <application
-         android:name=".MainApplication"
-         ... >
-         <!-- otras configuraciones -->
-     </application>
-     ```
-2. **iOS:**
-   - Abre `composeApp/src/iosMain/kotlin/io/github/kevinah95/MainViewController.kt`.
-   - Modifica la función para inicializar Koin usando `initKoin()` dentro del controlador:
-     ```kotlin
-     import io.github.kevinah95.di.initKoin
-     
-     fun MainViewController() = ComposeUIViewController(configure = { initKoin() }) { App() }
-     ```
-   - Así aseguras que Koin se inicializa correctamente al arrancar la app en iOS.
-3. Verifica que la app arranca sin errores y que puedes inyectar dependencias en ambas plataformas.
+1. Abre `composeApp/src/commonMain/kotlin/io/github/kevinah95/App.kt`.
+2. Inyecta el repositorio de usuarios usando `koinInject` y el ViewModel usando `koinViewModel` en tu composable principal:
+   ```kotlin
+   import org.koin.compose.koinInject
+   import org.koin.compose.koinViewModel
+   import io.github.kevinah95.data.UserRepository
+   import io.github.kevinah95.UserViewModel
+
+   @Composable
+   fun App() {
+       val userViewModel = koinViewModel<UserViewModel>()
+       val greeting = userViewModel.getGreeting()
+       // Usa el greeting en tu UI, por ejemplo:
+       Text(text = greeting)
+       // También puedes mostrar la lista de usuarios si lo deseas
+   }
+   ```
+
+> [!NOTE]
+> `koinInject` se utiliza para inyectar cualquier dependencia registrada en Koin, mientras que `koinViewModel` está especializado para inyectar ViewModels y maneja automáticamente su ciclo de vida en Compose.
+
+3. Muestra la lista de usuarios en la interfaz usando Compose (por ejemplo, con un LazyColumn).
+4. (Opcional) Inyecta otros viewmodels o dependencias según lo necesites, por ejemplo:
+   ```kotlin
+   val anotherViewModel = koinInject<AnotherViewModel>()
+   ```
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>
 
-- Si tienes problemas en Android, revisa que tu clase `Application` esté registrada en el `AndroidManifest.xml`.
-- Si tienes problemas en iOS, revisa la integración entre Swift y Kotlin Multiplatform.
-- Consulta la [documentación oficial de Koin](https://insert-koin.io/docs/setup/v4) para más detalles sobre inicialización multiplataforma.
+- Si tienes errores de inyección, revisa que Koin esté inicializado antes de acceder a las dependencias.
+- Consulta la [documentación de Koin para Compose](https://insert-koin.io/docs/compose/compose/) para más ejemplos de integración.
 
 </details>

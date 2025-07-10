@@ -1,27 +1,45 @@
-## Step 1: Configura tu entorno y explora el proyecto
+# Step 1: Agrega las dependencias de Koin usando Version Catalog
 
-¡Bienvenido! En este tutorial aprenderás a integrar Koin para la inyección de dependencias y a gestionar usuarios en un proyecto Kotlin Multiplatform (KMP) usando como base el proyecto KMPKoin.
+Ahora que conoces la estructura del proyecto, el siguiente paso es agregar Koin para la inyección de dependencias utilizando el Version Catalog (`libs.versions.toml`) y el BOM de Koin (Bill of Materials) versión 4.
 
-### 📖 Theory: ¿Qué es Kotlin Multiplatform y por qué usar Koin?
+### 📖 Theory: ¿Por qué usar Version Catalog y BOM?
 
 <!--
-> [!NOTE]
-> Kotlin Multiplatform te permite compartir lógica de negocio entre Android, iOS y otras plataformas, manteniendo UIs nativas.
+> [!TIP]
+> El Version Catalog centraliza y simplifica la gestión de versiones de dependencias. El BOM de Koin asegura que todas las dependencias de Koin sean compatibles entre sí.
 -->
 
-Koin es un framework ligero de inyección de dependencias para Kotlin. Facilita la gestión de dependencias y la escalabilidad de tu código, especialmente en proyectos multiplataforma.
+En proyectos modernos, es recomendable definir las versiones y módulos de dependencias en `libs.versions.toml` para mantener el proyecto organizado y fácil de actualizar.
 
-### ⌨️ Activity: Prepara tu entorno y explora la estructura
+### ⌨️ Activity: Añade Koin a tu proyecto con Version Catalog
 
-1. Clona el repositorio base de KMPKoin o descarga el código inicial.
-2. Abre el proyecto en tu IDE favorito (IntelliJ IDEA o Android Studio recomendado).
-3. Explora la estructura del proyecto, identificando los módulos principales: `shared`, `composeApp`, `iosApp`.
-4. Revisa los archivos `build.gradle.kts` y la carpeta `shared/src/commonMain/kotlin` para familiarizarte con la organización del código.
+1. Abre el archivo `gradle/libs.versions.toml` y asegúrate de tener las siguientes líneas:
+   ```toml
+   [versions]
+   koin-bom = "4.1.0"
+   # ...otras versiones
+
+   [libraries]
+   koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+   koin-core = { module = "io.insert-koin:koin-core" }
+   koin-compose = { module = "io.insert-koin:koin-compose" }
+   # ...otras dependencias de Koin si las necesitas
+   ```
+2. En los archivos `build.gradle.kts` de los módulos `shared` y `composeApp`, agrega las dependencias de Koin usando el catalog:
+   ```kotlin
+   // En la sección dependencies
+   implementation(platform(libs.koin.bom))
+   implementation(libs.koin.core)
+   // Para Compose Multiplatform (si aplica)
+   implementation(libs.koin.compose)
+   ```
+3. Sincroniza el proyecto para descargar las dependencias.
+4. (Opcional) Si usas iOS, asegúrate de que el código compartido exponga la inicialización de Koin para esa plataforma.
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>
 
-- Si tienes problemas para abrir el proyecto, asegúrate de tener instalada la última versión de IntelliJ IDEA o Android Studio y el plugin de Kotlin Multiplatform.
-- Si el proyecto no compila, ejecuta `./gradlew clean build` desde la terminal para forzar una reconstrucción.
+- Si tienes errores de sincronización, revisa que la versión de Koin sea compatible con tu versión de Kotlin.
+- Consulta la [documentación oficial de Koin](https://insert-koin.io/docs/setup/v4) para más detalles sobre integración multiplataforma y uso de BOM.
 
 </details>

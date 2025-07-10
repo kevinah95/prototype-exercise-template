@@ -1,66 +1,46 @@
-## Step 3: Crea los modelos y repositorios de usuario
+## Step 3: Configura los módulos de Koin
 
-Ahora que tienes Koin integrado, es momento de definir la lógica de negocio creando los modelos y repositorios para la gestión de usuarios en el módulo `shared`.
+Ahora que tienes tus modelos y repositorios, es momento de configurar los módulos de Koin para que puedas inyectar estas dependencias en tu aplicación.
 
-### 📖 Theory: ¿Por qué separar modelos y repositorios?
+### 📖 Theory: ¿Qué es un módulo de Koin?
 
 <!--
-> [!NOTE]
-> Separar los modelos de datos y los repositorios permite una arquitectura más limpia, facilita el testing y el mantenimiento del código.
+> [!IMPORTANT]
+> Un módulo de Koin es una colección de definiciones de dependencias. Permite declarar cómo se crean y comparten las instancias de tus clases.
 -->
 
-Un modelo representa la estructura de los datos (por ejemplo, un usuario). Un repositorio abstrae el acceso y manipulación de esos datos, permitiendo cambiar la fuente de datos sin afectar el resto de la app.
+Los módulos de Koin te permiten definir qué objetos estarán disponibles para inyección y su ciclo de vida (singleton, factory, etc.).
 
-### ⌨️ Activity: Implementa User y UserRepository
+### ⌨️ Activity: Crea y registra tus módulos de Koin
 
-1. En `shared/src/commonMain/kotlin/io/github/kevinah95/data/`, crea un archivo `User.kt` con el siguiente contenido:
+1. En `shared/src/commonMain/kotlin/io/github/kevinah95/di/`, crea un archivo `AppModule.kt` con el siguiente contenido:
    ```kotlin
-   package io.github.kevinah95.data
-
-   data class User(val id: String, val name: String, val email: String)
-   ```
-2. En la misma carpeta, crea `UserRepository.kt`:
-   ```kotlin
-   package io.github.kevinah95.data
-
-   class UserRepository {
-       private val users = mutableListOf<User>()
-
-       fun addUser(user: User) {
-           users.add(user)
-       }
-
-       fun getUsers(): List<User> = users
-   }
-   ```
-3. (Opcional) Crea un archivo `DefaultData.kt` para poblar el repositorio con datos de ejemplo:
-   ```kotlin
-   package io.github.kevinah95.data
-
-   object DefaultData {
-       val sampleUsers = listOf(
-           User(id = "1", name = "Alice", email = "alice@example.com"),
-           User(id = "2", name = "Bob", email = "bob@example.com")
-       )
-   }
-   ```
-4. Asegúrate de que los archivos estén en el paquete correcto y que el código compile.
-5. (Para el siguiente paso) Crea un archivo `UserViewModel.kt` en la misma carpeta con una implementación básica:
-   ```kotlin
-   package io.github.kevinah95
+   package io.github.kevinah95.di
 
    import io.github.kevinah95.data.UserRepository
+   import org.koin.dsl.module
 
-   class UserViewModel(private val userRepository: UserRepository) {
-       fun getGreeting(): String = "Hello, ${userRepository.getUsers().firstOrNull()?.name ?: "Guest"}!"
-       fun getUsers() = userRepository.getUsers()
+   val appModule = module {
+       single { UserRepository() }
    }
    ```
+2. (Opcional) Si tienes más dependencias, agrégalas en este módulo o crea módulos adicionales.
+3. En la misma carpeta, crea `KoinApp.kt` para inicializar Koin:
+   ```kotlin
+   package io.github.kevinah95.di
+
+   import org.koin.core.context.startKoin
+
+   fun initKoin() = startKoin {
+       modules(appModule)
+   }
+   ```
+4. Llama a `initKoin()` desde el punto de entrada de tu app (por ejemplo, en Android desde `Application`, en iOS desde el inicializador compartido).
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>
 
-- Si tienes errores de compilación, revisa los nombres de los paquetes y la ubicación de los archivos.
-- Puedes consultar la [documentación oficial de Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) para más ejemplos de organización de código.
+- Si tienes errores de importación, revisa que los paquetes y rutas sean correctos.
+- Consulta la [documentación oficial de Koin](https://insert-koin.io/docs/reference/koin-core/modules/) para más ejemplos de módulos.
 
 </details>

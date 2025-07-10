@@ -1,45 +1,66 @@
-## Step 2: Agrega las dependencias de Koin usando Version Catalog
+# Step 2: Crea los modelos y repositorios de usuario
 
-Ahora que conoces la estructura del proyecto, el siguiente paso es agregar Koin para la inyección de dependencias utilizando el Version Catalog (`libs.versions.toml`) y el BOM de Koin (Bill of Materials) versión 4.
+Ahora que tienes Koin integrado, es momento de definir la lógica de negocio creando los modelos y repositorios para la gestión de usuarios en el módulo `shared`.
 
-### 📖 Theory: ¿Por qué usar Version Catalog y BOM?
+### 📖 Theory: ¿Por qué separar modelos y repositorios?
 
 <!--
-> [!TIP]
-> El Version Catalog centraliza y simplifica la gestión de versiones de dependencias. El BOM de Koin asegura que todas las dependencias de Koin sean compatibles entre sí.
+> [!NOTE]
+> Separar los modelos de datos y los repositorios permite una arquitectura más limpia, facilita el testing y el mantenimiento del código.
 -->
 
-En proyectos modernos, es recomendable definir las versiones y módulos de dependencias en `libs.versions.toml` para mantener el proyecto organizado y fácil de actualizar.
+Un modelo representa la estructura de los datos (por ejemplo, un usuario). Un repositorio abstrae el acceso y manipulación de esos datos, permitiendo cambiar la fuente de datos sin afectar el resto de la app.
 
-### ⌨️ Activity: Añade Koin a tu proyecto con Version Catalog
+### ⌨️ Activity: Implementa User y UserRepository
 
-1. Abre el archivo `gradle/libs.versions.toml` y asegúrate de tener las siguientes líneas:
-   ```toml
-   [versions]
-   koin-bom = "4.1.0"
-   # ...otras versiones
-
-   [libraries]
-   koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
-   koin-core = { module = "io.insert-koin:koin-core" }
-   koin-compose = { module = "io.insert-koin:koin-compose" }
-   # ...otras dependencias de Koin si las necesitas
-   ```
-2. En los archivos `build.gradle.kts` de los módulos `shared` y `composeApp`, agrega las dependencias de Koin usando el catalog:
+1. En `shared/src/commonMain/kotlin/io/github/kevinah95/data/`, crea un archivo `User.kt` con el siguiente contenido:
    ```kotlin
-   // En la sección dependencies
-   implementation(platform(libs.koin.bom))
-   implementation(libs.koin.core)
-   // Para Compose Multiplatform (si aplica)
-   implementation(libs.koin.compose)
+   package io.github.kevinah95.data
+
+   data class User(val id: String, val name: String, val email: String)
    ```
-3. Sincroniza el proyecto para descargar las dependencias.
-4. (Opcional) Si usas iOS, asegúrate de que el código compartido exponga la inicialización de Koin para esa plataforma.
+2. En la misma carpeta, crea `UserRepository.kt`:
+   ```kotlin
+   package io.github.kevinah95.data
+
+   class UserRepository {
+       private val users = mutableListOf<User>()
+
+       fun addUser(user: User) {
+           users.add(user)
+       }
+
+       fun getUsers(): List<User> = users
+   }
+   ```
+3. (Opcional) Crea un archivo `DefaultData.kt` para poblar el repositorio con datos de ejemplo:
+   ```kotlin
+   package io.github.kevinah95.data
+
+   object DefaultData {
+       val sampleUsers = listOf(
+           User(id = "1", name = "Alice", email = "alice@example.com"),
+           User(id = "2", name = "Bob", email = "bob@example.com")
+       )
+   }
+   ```
+4. Asegúrate de que los archivos estén en el paquete correcto y que el código compile.
+5. (Para el siguiente paso) Crea un archivo `UserViewModel.kt` en la misma carpeta con una implementación básica:
+   ```kotlin
+   package io.github.kevinah95
+
+   import io.github.kevinah95.data.UserRepository
+
+   class UserViewModel(private val userRepository: UserRepository) {
+       fun getGreeting(): String = "Hello, ${userRepository.getUsers().firstOrNull()?.name ?: "Guest"}!"
+       fun getUsers() = userRepository.getUsers()
+   }
+   ```
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>
 
-- Si tienes errores de sincronización, revisa que la versión de Koin sea compatible con tu versión de Kotlin.
-- Consulta la [documentación oficial de Koin](https://insert-koin.io/docs/setup/v4) para más detalles sobre integración multiplataforma y uso de BOM.
+- Si tienes errores de compilación, revisa los nombres de los paquetes y la ubicación de los archivos.
+- Puedes consultar la [documentación oficial de Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) para más ejemplos de organización de código.
 
 </details>
