@@ -27,7 +27,7 @@ En proyectos modernos, es recomendable definir las versiones y módulos de depen
    koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-compose-viewmodel-navigation" }
    # ...otras dependencias de Koin si las necesitas
    ```
-2. Sincroniza el proyecto para descargar las dependencias.
+2. **⚠️ Este punto es muy importante: Sincroniza el proyecto para descargar las dependencias antes de continuar.**
 3. En los archivos `build.gradle.kts` de los módulos `shared` y `composeApp`, agrega las dependencias de Koin usando el catalog:
    ```kotlin
    // shared/build.gradle.kts
