@@ -23,6 +23,10 @@ jobs:
     with:
       exercise-title: "Inyección de dependencias multiplataforma"
       intro-message: "¡Bienvenido! En este ejercicio aprenderás a usar Koin en un proyecto Kotlin Multiplataforma."
+    steps:
+      - name: Use the template
+        run: |
+          cat exercise-toolkit/markdown-templates/step-feedback/checking-work.md
 
   post_next_step_content:
     name: Post next step content
