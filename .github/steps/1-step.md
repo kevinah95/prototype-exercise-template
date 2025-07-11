@@ -23,17 +23,23 @@ En proyectos modernos, es recomendable definir las versiones y módulos de depen
    koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
    koin-core = { module = "io.insert-koin:koin-core" }
    koin-compose = { module = "io.insert-koin:koin-compose" }
+   koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
+   koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-compose-viewmodel-navigation" }
    # ...otras dependencias de Koin si las necesitas
    ```
-2. En los archivos `build.gradle.kts` de los módulos `shared` y `composeApp`, agrega las dependencias de Koin usando el catalog:
+2. Sincroniza el proyecto para descargar las dependencias.
+3. En los archivos `build.gradle.kts` de los módulos `shared` y `composeApp`, agrega las dependencias de Koin usando el catalog:
    ```kotlin
-   // En la sección dependencies
-   implementation(platform(libs.koin.bom))
+   // shared/build.gradle.kts
+   implementation(project.dependencies.platform(libs.koin.bom))
    implementation(libs.koin.core)
-   // Para Compose Multiplatform (si aplica)
+   implementation(libs.koin.compose.viewmodel)
+   // composeApp/build.gradle.kts
+   implementation(project.dependencies.platform(libs.koin.bom))
    implementation(libs.koin.compose)
+   implementation(libs.koin.compose.viewmodel)
+   implementation(libs.koin.compose.viewmodel.navigation)
    ```
-3. Sincroniza el proyecto para descargar las dependencias.
 4. (Opcional) Si usas iOS, asegúrate de que el código compartido exponga la inicialización de Koin para esa plataforma.
 
 <details>
