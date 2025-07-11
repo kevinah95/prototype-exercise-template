@@ -58,6 +58,6 @@ jobs:
       - name: Disable current workflow and enable next one
         run: |
           gh workflow disable "${{github.workflow}}"
-          gh workflow enable "Step 5"
+          gh workflow enable "Step 5 - Final Review"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
