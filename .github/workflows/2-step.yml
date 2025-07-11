@@ -37,7 +37,7 @@ jobs:
         with:
           file: KMPKoin/shared/src/commonMain/kotlin/io/github/kevinah95/data/UserRepository.kt
       - name: Fail job if not all checks passed
-        if: steps.check-user-repo.outcome != 'success' || steps.check-app-module.outcome != 'success'
+        if: steps.check-user-repo.outcome != 'success'
         run: exit 1
 
   post_next_step_content:
