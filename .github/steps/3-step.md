@@ -13,7 +13,7 @@ Los módulos de Koin te permiten definir qué objetos estarán disponibles para 
 
 ### ⌨️ Activity: Crea y registra tus módulos de Koin
 
-1. En `KMPKoin/src/commonMain/kotlin/io/github/kevinah95/di/`, crea un archivo `AppModule.kt` con el siguiente contenido:
+1. En `KMPKoin/shared/src/commonMain/kotlin/io/github/kevinah95/di/`, crea un archivo `AppModule.kt` con el siguiente contenido:
    ```kotlin
    package io.github.kevinah95.di
 

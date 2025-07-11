@@ -14,7 +14,7 @@ En proyectos multiplataforma, cada plataforma (Android, iOS) tiene su propio cic
 ### ⌨️ Activity: Inicializa Koin en Android e iOS
 
 1. **Android:**
-   - Abre `KMPKoin/src/androidMain/kotlin/io/github/kevinah95/MainApplication.kt`.
+   - Abre `KMPKoin/composeApp/src/androidMain/kotlin/io/github/kevinah95/MainApplication.kt`.
    - Llama a `initKoin()` en el método `onCreate` de tu clase `Application`:
      ```kotlin
      class MainApplication : Application() {
@@ -33,7 +33,7 @@ En proyectos multiplataforma, cada plataforma (Android, iOS) tiene su propio cic
      </application>
      ```
 2. **iOS:**
-   - Abre `KMPKoin/src/iosMain/kotlin/io/github/kevinah95/MainViewController.kt`.
+   - Abre `KMPKoin/composeApp/src/iosMain/kotlin/io/github/kevinah95/MainViewController.kt`.
    - Modifica la función para inicializar Koin usando `initKoin()` dentro del controlador:
      ```kotlin
      import io.github.kevinah95.di.initKoin

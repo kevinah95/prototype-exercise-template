@@ -13,7 +13,7 @@ Un modelo representa la estructura de los datos (por ejemplo, un usuario). Un re
 
 ### ⌨️ Activity: Implementa User y UserRepository
 
-1. En `KMPKoin/src/commonMain/kotlin/io/github/kevinah95/data/`, crea un archivo `User.kt` con el siguiente contenido:
+1. En `KMPKoin/shared/src/commonMain/kotlin/io/github/kevinah95/data/`, crea un archivo `User.kt` con el siguiente contenido:
    ```kotlin
    package io.github.kevinah95.data
 

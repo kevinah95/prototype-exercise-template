@@ -13,7 +13,7 @@ En proyectos modernos, es recomendable definir las versiones y módulos de depen
 
 ### ⌨️ Activity: Añade Koin a tu proyecto con Version Catalog
 
-1. Abre el archivo `gradle/libs.versions.toml` y asegúrate de tener las siguientes líneas:
+1. Abre el archivo `KMPKoin/gradle/libs.versions.toml` y asegúrate de tener las siguientes líneas:
    ```toml
    [versions]
    koin-bom = "4.1.0"
