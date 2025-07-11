@@ -35,7 +35,6 @@ Los módulos de Koin te permiten definir qué objetos estarán disponibles para 
        modules(appModule)
    }
    ```
-4. Llama a `initKoin()` desde el punto de entrada de tu app (por ejemplo, en Android desde `Application`, en iOS desde el inicializador compartido).
 
 <details>
 <summary>Having trouble? 🤷</summary><br/>
